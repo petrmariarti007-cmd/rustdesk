@@ -2,11 +2,6 @@ name: Build Gold
 
 on:
   workflow_dispatch:
-  # One-shot: this token cannot send workflow_dispatch. Removed after the run starts.
-  push:
-    branches: [master]
-    paths:
-      - .github/workflows/build-gold.yml
 
 # This fork's default GITHUB_TOKEN is contents: read. flutter-build.yml
 # declares contents: write on generate-sbom and publish-signed-update-metadata.
