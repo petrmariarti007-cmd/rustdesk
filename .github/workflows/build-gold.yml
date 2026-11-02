@@ -1,0 +1,21 @@
+name: Build Gold
+
+on:
+  workflow_dispatch:
+
+# This fork's default GITHUB_TOKEN is contents: read. flutter-build.yml
+# declares contents: write on generate-sbom and publish-signed-update-metadata.
+# GitHub checks that at load time and rejects the run (startup_failure, zero
+# jobs) unless the caller grants write, even when those jobs later skip.
+permissions:
+  contents: write
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    uses: ./.github/workflows/flutter-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      publish-update-metadata: false
