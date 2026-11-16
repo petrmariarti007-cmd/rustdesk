@@ -3,7 +3,6 @@ name: Gold portable zip
 on:
   workflow_dispatch:
   # One-shot: this token cannot send workflow_dispatch. Removed after the run starts.
-  # The commit that added this file did not start a run. This push does.
   push:
     branches: [master]
     paths:
