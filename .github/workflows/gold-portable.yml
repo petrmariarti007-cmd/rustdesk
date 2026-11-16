@@ -2,11 +2,6 @@ name: Gold portable zip
 
 on:
   workflow_dispatch:
-  # One-shot: this token cannot send workflow_dispatch. Removed after the run starts.
-  push:
-    branches: [master]
-    paths:
-      - .github/workflows/gold-portable.yml
 
 # This fork's default GITHUB_TOKEN is contents: read. Release upload needs write.
 permissions:
