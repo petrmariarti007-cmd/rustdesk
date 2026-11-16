@@ -31,28 +31,28 @@ jobs:
           python3 << 'PY'
           from pathlib import Path
           text = """Gold — wersja przenośna / портативная версия
-============================================
+          ============================================
 
-POLSKI
-------
-1. Rozpakuj CAŁY folder Gold (nie tylko plik Gold.exe).
-2. Wejdź do rozpakowanego folderu i uruchom Gold.exe.
-3. Instalacja nie jest potrzebna — program działa bezpośrednio z folderu.
+          POLSKI
+          ------
+          1. Rozpakuj CAŁY folder Gold (nie tylko plik Gold.exe).
+          2. Wejdź do rozpakowanego folderu i uruchom Gold.exe.
+          3. Instalacja nie jest potrzebna — program działa bezpośrednio z folderu.
 
-Jeśli Windows zablokuje program (Smart App Control / SmartScreen):
-wyciągnij folder w całości, a następnie uruchom Gold.exe stamtąd.
-Nie uruchamiaj pliku bezpośrednio z archiwum ZIP.
+          Jeśli Windows zablokuje program (Smart App Control / SmartScreen):
+          wyciągnij folder w całości, a następnie uruchom Gold.exe stamtąd.
+          Nie uruchamiaj pliku bezpośrednio z archiwum ZIP.
 
-RUSSIAN / РУССКИЙ
------------------
-1. Распакуйте ВСЮ папку Gold (не только файл Gold.exe).
-2. Откройте распакованную папку и запустите Gold.exe.
-3. Установка не нужна — программа работает прямо из папки.
+          RUSSIAN / РУССКИЙ
+          -----------------
+          1. Распакуйте ВСЮ папку Gold (не только файл Gold.exe).
+          2. Откройте распакованную папку и запустите Gold.exe.
+          3. Установка не нужна — программа работает прямо из папки.
 
-Если Windows блокирует программу (Smart App Control / SmartScreen):
-распакуйте папку целиком и запускайте Gold.exe уже из этой папки.
-Не запускайте файл прямо из архива ZIP.
-"""
+          Если Windows блокирует программу (Smart App Control / SmartScreen):
+          распакуйте папку целиком и запускайте Gold.exe уже из этой папки.
+          Не запускайте файл прямо из архива ZIP.
+          """
           Path("Gold/README.txt").write_bytes(b"\xef\xbb\xbf" + text.encode("utf-8"))
           PY
           zip -9 -r Gold-portable.zip Gold
